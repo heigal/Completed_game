@@ -304,9 +304,11 @@ function createBalloon() {
   if (isFreeze) {
     balloon.innerHTML = '<span class="freeze-mark" aria-hidden="true">❄</span>';
   } else if (isSpecial) {
-    balloon.innerHTML = '<span class="special-mark" aria-hidden="true">★</span>';
+    balloon.innerHTML = '<span class="balloon-can-mark" aria-hidden="true"></span>';
   } else if (isBad) {
     balloon.innerHTML = '<span class="bad-mark" aria-hidden="true">✕</span>';
+  } else {
+    balloon.innerHTML = '<span class="balloon-can-mark" aria-hidden="true"></span>';
   }
 
   balloon.addEventListener("pointerdown", () => popBalloon(balloon));

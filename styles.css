@@ -659,6 +659,21 @@ button {
     line-height: 1;
 }
 
+.balloon-can-mark {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 60%;
+    height: 60%;
+    display: block;
+    background: url("img/water-can-cutout.png") center / contain no-repeat;
+    transform: translate(-50%, -50%);
+    z-index: 3;
+    pointer-events: none;
+    user-select: none;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.22));
+}
+
 #game-container.freeze-active .balloon,
 #game-container.freeze-active .floating-points,
 #game-container.freeze-active .water-particle {
