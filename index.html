@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Water Balloon Rush</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-wrapper">
+        <h1 class="game-title">Water Balloon Rush</h1>
+
+        <section class="instruction-card" aria-labelledby="how-to-play-heading">
+            <h2 id="how-to-play-heading">How To Play</h2>
+            <p>Tap on mobile or click on desktop to burst <strong>red water balloons</strong>. Each pop adds water to the bar and boosts your score. Watch out for <strong>dark balloons</strong> — those are polluted and will deduct points if popped. Keep popping until the timer ends and try to fill the tank before time runs out.</p>
+        </section>
+
+        <div class="score-panel">
+            <div class="stat-card">
+                <span class="stat-label">Score</span>
+                <div class="score"><span id="score">0</span></div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">High Score</span>
+                <div class="score high-score"><span id="high-score">0</span></div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-label">Time</span>
+                <div class="timer"><span id="time">30</span>s</div>
+            </div>
+            <div class="stat-card stat-card-wide">
+                <div class="fill-header">
+                    <span class="stat-label">Water Bar</span>
+                    <span id="fill-status" class="fill-status">0%</span>
+                </div>
+                <div class="fill-bar-shell" aria-label="Water bar progress">
+                    <div id="fill-bar" class="fill-bar"></div>
+                </div>
+                <div id="feedback" class="feedback-text" aria-live="polite">Press start to launch the balloon run.</div>
+            </div>
+            <button id="start-btn">Start Mission</button>
+        </div>
+
+        <div id="game-container" aria-label="Game area">
+            <div id="goal-chip" class="goal-chip">Fill the tank before 30 seconds ends</div>
+            <div class="cw-corner-brand" aria-label="charity water brand panel">
+                <img class="cw-corner-logo" src="img/cw_logo-horizontal.png" alt="charity: water logo">
+                <p class="cw-corner-note">Pop balloons to help fill clean water access.</p>
+            </div>
+            <div id="cutscene" class="cs-screen" role="dialog" aria-label="Story introduction">
+
+                <div class="cs-stage">
+                    <div class="cs-char cs-char-left" id="cs-char-left">
+                        <div class="cs-portrait" id="cs-portrait-left">
+                            <img src="img/tiger.png" alt="Tiger">
+                        </div>
+                    </div>
+
+                
+                    <div class="cs-char cs-char-right" id="cs-char-right">
+                        <div class="cs-portrait cs-portrait-large" id="cs-portrait-right">
+                            <img src="img/monkey.png" alt="Monkey">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="cs-dialogue">
+                    <div class="cs-speaker-name" id="cs-speaker"></div>
+                    <p class="cs-text" id="cs-text"></p>
+                    <button class="cs-next-btn" id="cs-next-btn">Next ›</button>
+                </div>
+
+            </div>
+            <div id="intro-overlay" class="info-overlay">
+                <div class="overlay-card">
+                    <h2>Ready To Fill The Tank?</h2>
+                    <p>Pop every <strong>red balloon</strong> you can. Each one adds water and points. Avoid the <strong>dark balloons</strong> — popping those costs you points.</p>
+                    <button id="overlay-start-btn" class="overlay-button">Start Popping</button>
+                </div>
+            </div>
+            <div id="end-message" class="end-message hidden" aria-live="polite"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
