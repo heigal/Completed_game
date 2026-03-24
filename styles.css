@@ -26,6 +26,8 @@ Fonts:
     --cw-green: #159a48;
     --cw-ink: #131313;
     --cw-paper: #fcfaf4;
+    --cw-font-base: "Proxima Nova", Avenir, "Avenir Next", "Segoe UI", sans-serif;
+    --cw-font-display: "Proxima Nova", Avenir, "Avenir Next", "Segoe UI", sans-serif;
 }
 
 * {
@@ -41,7 +43,7 @@ body {
         radial-gradient(circle at top left, rgba(255, 201, 7, 0.24), transparent 28%),
         radial-gradient(circle at bottom right, rgba(46, 157, 247, 0.18), transparent 36%),
         linear-gradient(180deg, #fffdf7 0%, #eef8ff 100%);
-    font-family: Avenir, "Avenir Next", "Segoe UI", sans-serif;
+    font-family: var(--cw-font-base);
     color: var(--cw-ink);
 }
 
@@ -57,6 +59,12 @@ button {
     gap: 18px;
 }
 
+.game-screen-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+
 .instruction-card,
 .score-panel {
     background: rgba(255, 255, 255, 0.9);
@@ -66,8 +74,24 @@ button {
 
 .game-title {
     color: var(--cw-ink);
+    font-family: var(--cw-font-display);
+    font-weight: 900;
     font-size: clamp(2.3rem, 6vw, 4.6rem);
     line-height: 0.95;
+}
+
+.instruction-card h2,
+.stat-label,
+.score,
+.timer,
+.fill-status,
+.cs-speaker-name,
+.cs-next-btn,
+.overlay-button,
+.replay-button,
+.charity-footer h2,
+.charity-link {
+    font-family: var(--cw-font-display);
 }
 
 .game-tagline {
@@ -94,10 +118,11 @@ button {
 
 .score-panel {
     display: grid;
-    grid-template-columns: repeat(3, minmax(120px, 150px)) minmax(260px, 1fr) auto;
+    grid-template-columns: repeat(3, minmax(120px, 150px));
     gap: 14px;
     align-items: stretch;
     padding: 16px;
+    justify-content: start;
     border-radius: 20px;
 }
 
@@ -110,10 +135,6 @@ button {
     border-radius: 16px;
     background: var(--cw-paper);
     border: 1px solid rgba(19, 19, 19, 0.08);
-}
-
-.stat-card-wide {
-    min-width: 0;
 }
 
 .stat-label {
@@ -140,6 +161,22 @@ button {
 
 .timer {
     color: var(--cw-blue);
+}
+
+.difficulty-select {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(19, 19, 19, 0.16);
+    background: #fff;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--cw-ink);
+}
+
+.difficulty-select:disabled {
+    opacity: 0.66;
+    cursor: not-allowed;
 }
 
 .fill-header {
@@ -178,11 +215,86 @@ button {
 }
 
 .feedback-text {
-    min-height: 2.6em;
-    margin-top: 10px;
+    min-height: 2.5em;
+    margin-top: 8px;
     font-size: 0.96rem;
     line-height: 1.4;
     color: #1f2937;
+}
+
+.game-bottom-hud {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(680px, calc(100% - 28px));
+    bottom: 12px;
+    z-index: 4;
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(19, 19, 19, 0.1);
+    box-shadow: 0 10px 24px rgba(19, 19, 19, 0.14);
+    text-align: center;
+}
+
+.game-bottom-hud .fill-header {
+    justify-content: center;
+}
+
+.game-bottom-hud .feedback-text {
+    text-align: center;
+}
+
+.game-top-stats {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 4;
+    display: flex;
+    gap: 8px;
+}
+
+.game-stat-card {
+    min-width: 108px;
+    padding: 8px 10px;
+    gap: 6px;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(19, 19, 19, 0.1);
+    box-shadow: 0 8px 20px rgba(19, 19, 19, 0.14);
+}
+
+.game-stat-card .stat-label {
+    font-size: 0.68rem;
+}
+
+.game-stat-card .score,
+.game-stat-card .timer {
+    font-size: 1.2rem;
+}
+
+.cw-brand-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 18px;
+    border-radius: 20px 20px 0 0;
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(19, 19, 19, 0.08);
+    box-shadow: 0 16px 44px rgba(19, 19, 19, 0.1);
+}
+
+.cw-brand-logo {
+    display: block;
+    width: min(230px, 100%);
+    height: auto;
+}
+
+.cw-brand-note {
+    font-size: 0.92rem;
+    line-height: 1.45;
+    color: #374151;
+    text-align: right;
 }
 
 #start-btn,
@@ -231,7 +343,7 @@ button {
     min-height: 440px;
     position: relative;
     overflow: hidden;
-    border-radius: 30px;
+    border-radius: 0 0 30px 30px;
     border: 4px solid white;
     background:
         linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0) 30%),
@@ -246,6 +358,73 @@ button {
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.18);
     pointer-events: none;
+}
+
+.charity-footer {
+    width: 100vw;
+    margin-inline: calc(50% - 50vw);
+    background: #ffffff;
+    border-top: 1px solid rgba(19, 19, 19, 0.12);
+    box-shadow: 0 -8px 28px rgba(19, 19, 19, 0.04);
+}
+
+.charity-footer-inner {
+    width: min(100%, 1040px);
+    margin: 0 auto;
+    padding: 22px 24px;
+    text-align: center;
+}
+
+.charity-footer h2 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    letter-spacing: 0.01em;
+}
+
+.charity-footer p {
+    color: #334155;
+    line-height: 1.6;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.charity-footer-links {
+    margin-top: 14px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.charity-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 15px;
+    border-radius: 10px;
+    border: 1px solid rgba(46, 157, 247, 0.34);
+    text-decoration: none;
+    font-weight: 700;
+    color: #0f4d78;
+    background: rgba(46, 157, 247, 0.05);
+    transition: box-shadow 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.charity-link:hover {
+    background: rgba(46, 157, 247, 0.1);
+    border-color: rgba(46, 157, 247, 0.6);
+    box-shadow: 0 6px 16px rgba(46, 157, 247, 0.12);
+}
+
+.charity-link-donate {
+    border-color: var(--cw-blue);
+    background: var(--cw-blue);
+    color: #ffffff;
+    box-shadow: 0 6px 16px rgba(46, 157, 247, 0.2);
+}
+
+.charity-link-donate:hover {
+    background: #1e86d6;
 }
 
 #game-container::before {
@@ -263,6 +442,7 @@ button {
 }
 
 .goal-chip {
+    display: none;
     position: absolute;
     top: 18px;
     left: 18px;
@@ -276,30 +456,31 @@ button {
     box-shadow: 0 8px 22px rgba(19, 19, 19, 0.12);
 }
 
-.cw-corner-brand {
+.milestone-banner {
     position: absolute;
     top: 18px;
-    right: 18px;
-    z-index: 4;
-    width: min(280px, 45%);
-    padding: 10px 12px;
-    border-radius: 14px;
-    background: rgba(255, 255, 255, 0.92);
-    border: 1px solid rgba(19, 19, 19, 0.08);
-    box-shadow: 0 10px 24px rgba(19, 19, 19, 0.14);
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+    z-index: 6;
+    padding: 10px 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 201, 7, 0.5);
+    background: rgba(255, 255, 255, 0.96);
+    color: var(--cw-ink);
+    font-size: 0.88rem;
+    font-weight: 800;
+    letter-spacing: 0.01em;
+    box-shadow: 0 10px 24px rgba(19, 19, 19, 0.16);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.18s ease, transform 0.18s ease;
+    max-width: min(72%, 520px);
+    text-align: center;
 }
 
-.cw-corner-logo {
-    display: block;
-    width: min(190px, 100%);
-    height: auto;
-}
-
-.cw-corner-note {
-    margin-top: 6px;
-    font-size: 0.8rem;
-    line-height: 1.35;
-    color: #4b5563;
+.milestone-banner.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
 }
 
 .info-overlay,
@@ -319,13 +500,29 @@ button {
     text-align: center;
 }
 
-.overlay-card,
-.end-message {
+.overlay-card {
     width: min(88%, 540px);
     padding: 28px 24px;
     border-radius: 24px;
     background: rgba(255, 255, 255, 0.95);
     box-shadow: 0 24px 80px rgba(19, 19, 19, 0.18);
+}
+
+.end-message {
+    width: 100%;
+    height: 100%;
+    padding: 28px 24px;
+    border-radius: 0;
+    background: rgba(8, 18, 36, 0.62);
+    box-shadow: none;
+    align-content: center;
+    overflow: auto;
+    text-align: center;
+}
+
+.end-message > * {
+    max-width: min(92%, 760px);
+    margin-inline: auto;
 }
 
 .overlay-card h2,
@@ -334,10 +531,24 @@ button {
     font-size: clamp(1.7rem, 3vw, 2.4rem);
 }
 
+.end-message h2 {
+    color: #ffffff;
+}
+
 .overlay-card p,
 .end-message p {
     line-height: 1.6;
     color: #374151;
+}
+
+.end-message p {
+    color: #e5e7eb;
+}
+
+.overlay-difficulty-row {
+    margin: 14px auto 10px;
+    width: min(260px, 100%);
+    text-align: left;
 }
 
 .balloon {
@@ -403,6 +614,15 @@ button {
     background: rgba(255, 255, 255, 0.58);
 }
 
+.balloon.freeze-balloon {
+    background: radial-gradient(circle at 35% 28%, #dff6ff 0%, #60a5fa 45%, #1d4ed8 100%);
+    box-shadow: inset -12px -18px 18px rgba(10, 35, 100, 0.24), 0 14px 24px rgba(37, 99, 235, 0.34);
+}
+
+.balloon.freeze-balloon::before {
+    background: rgba(255, 255, 255, 0.68);
+}
+
 .special-mark {
     position: absolute;
     inset: 0;
@@ -425,6 +645,24 @@ button {
     font-weight: 800;
     pointer-events: none;
     line-height: 1;
+}
+
+.freeze-mark {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: rgba(255, 255, 255, 0.94);
+    font-size: 1.05rem;
+    font-weight: 900;
+    pointer-events: none;
+    line-height: 1;
+}
+
+#game-container.freeze-active .balloon,
+#game-container.freeze-active .floating-points,
+#game-container.freeze-active .water-particle {
+    animation-play-state: paused !important;
 }
 
 .floating-points {
@@ -490,6 +728,17 @@ button {
     color: var(--cw-red);
 }
 
+.end-result-image {
+    margin: 12px auto 14px;
+}
+
+.end-result-image img {
+    width: min(340px, 68vw);
+    height: auto;
+    border-radius: 14px;
+    box-shadow: 0 10px 26px rgba(0, 0, 0, 0.22);
+}
+
 .happy-cast {
     margin: 12px auto 14px;
     display: flex;
@@ -549,6 +798,10 @@ button {
 
 .game-flash-special {
     animation: containerSpecial 0.36s ease;
+}
+
+.game-flash-freeze {
+    animation: containerFreeze 0.36s ease;
 }
 
 @keyframes balloonRise {
@@ -626,6 +879,18 @@ button {
     }
     50% {
         box-shadow: 0 28px 80px rgba(255, 201, 7, 0.58);
+    }
+    100% {
+        box-shadow: 0 28px 80px rgba(46, 157, 247, 0.22);
+    }
+}
+
+@keyframes containerFreeze {
+    0% {
+        box-shadow: 0 28px 80px rgba(46, 157, 247, 0.22);
+    }
+    50% {
+        box-shadow: 0 28px 80px rgba(96, 165, 250, 0.56);
     }
     100% {
         box-shadow: 0 28px 80px rgba(46, 157, 247, 0.22);
@@ -835,6 +1100,50 @@ button {
     box-shadow: 0 12px 26px rgba(255, 201, 7, 0.42);
 }
 
+.cs-howto-card {
+    position: absolute;
+    inset: 0;
+    z-index: 9;
+    display: grid;
+    place-content: center;
+    gap: 10px;
+    padding: 22px;
+    text-align: center;
+    background: rgba(8, 18, 36, 0.48);
+}
+
+.cs-howto-card.hidden {
+    display: none;
+}
+
+.cs-howto-card h3 {
+    color: #ffffff;
+    font-size: 1.2rem;
+}
+
+.cs-howto-card p {
+    width: min(92%, 640px);
+    margin: 0 auto;
+    padding: 14px 16px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.96);
+    color: #1f2937;
+    line-height: 1.5;
+    font-size: 0.95rem;
+}
+
+.cs-howto-btn {
+    justify-self: center;
+    padding: 10px 22px;
+    border: none;
+    border-radius: 999px;
+    background: var(--cw-yellow);
+    color: var(--cw-ink);
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(255, 201, 7, 0.3);
+}
+
 @keyframes csFadeIn {
     from { opacity: 0; }
     to   { opacity: 1; }
@@ -870,18 +1179,8 @@ button {
         padding: 14px;
     }
 
-    .stat-card-wide,
-    #start-btn {
-        grid-column: 1 / -1;
-    }
-
-    .cw-corner-brand {
-        width: min(220px, 42%);
-        padding: 9px 10px;
-    }
-
-    .cw-corner-logo {
-        width: min(150px, 100%);
+    .cw-brand-logo {
+        width: min(210px, 100%);
     }
 
     #game-container {
@@ -915,22 +1214,21 @@ button {
         padding: 14px;
     }
 
-    .cw-corner-brand {
-        width: min(220px, 60%);
-        right: 12px;
-        top: 56px;
+    .cw-brand-strip {
+        flex-direction: column;
+        text-align: center;
+        padding: 12px 14px;
     }
 
-    .cw-corner-note {
-        display: none;
+    .cw-brand-note {
+        text-align: center;
     }
 
     .score-panel {
         grid-template-columns: 1fr;
     }
 
-    .stat-card,
-    .stat-card-wide {
+    .stat-card {
         padding: 12px 14px;
     }
 
@@ -956,23 +1254,62 @@ button {
         padding: 8px 12px;
     }
 
-    .cw-corner-brand {
-        top: auto;
-        bottom: 12px;
-        right: 12px;
-        width: min(180px, 52%);
-        border-radius: 12px;
-        padding: 8px 10px;
+    .game-top-stats {
+        top: 52px;
+        left: 12px;
+        transform: none;
+        gap: 6px;
     }
 
-    .overlay-card,
-    .end-message {
+    .game-stat-card {
+        min-width: 94px;
+        padding: 6px 8px;
+    }
+
+    .game-stat-card .score,
+    .game-stat-card .timer {
+        font-size: 1.05rem;
+    }
+
+    .milestone-banner {
+        top: 106px;
+        max-width: calc(100% - 24px);
+        font-size: 0.8rem;
+    }
+
+    .game-bottom-hud {
+        width: min(520px, calc(100% - 20px));
+        bottom: 10px;
+        padding: 9px 10px;
+    }
+
+    .game-bottom-hud .feedback-text {
+        font-size: 0.88rem;
+    }
+
+    .overlay-card {
         width: min(94%, 540px);
         padding: 22px 18px;
     }
 
-    .overlay-card p,
-    .end-message p {
+    .charity-footer {
+        margin-inline: calc(50% - 50vw);
+    }
+
+    .charity-footer-inner {
+        padding: 18px 14px;
+    }
+
+    .charity-footer-links {
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .charity-link {
+        width: 100%;
+    }
+
+    .overlay-card p {
         font-size: 0.94rem;
     }
 
@@ -1048,14 +1385,8 @@ button {
         border-width: 3px;
     }
 
-    .cw-corner-brand {
-        width: 132px;
-        bottom: 10px;
-        right: 10px;
-    }
-
-    .cw-corner-logo {
-        width: 100%;
+    .cw-brand-logo {
+        width: min(190px, 100%);
     }
 
     .goal-chip {
@@ -1064,8 +1395,7 @@ button {
         top: 10px;
     }
 
-    .overlay-card,
-    .end-message {
+    .overlay-card {
         width: calc(100% - 16px);
         padding: 18px 14px;
     }

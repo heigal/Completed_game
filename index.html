@@ -15,39 +15,40 @@
             <p>Tap on mobile or click on desktop to burst <strong>red water balloons</strong>. Each pop adds water to the bar and boosts your score. Watch out for <strong>dark balloons</strong> — those are polluted and will deduct points if popped. Keep popping until the timer ends and try to fill the tank before time runs out.</p>
         </section>
 
-        <div class="score-panel">
-            <div class="stat-card">
-                <span class="stat-label">Score</span>
-                <div class="score"><span id="score">0</span></div>
-            </div>
-            <div class="stat-card">
-                <span class="stat-label">High Score</span>
-                <div class="score high-score"><span id="high-score">0</span></div>
-            </div>
-            <div class="stat-card">
-                <span class="stat-label">Time</span>
-                <div class="timer"><span id="time">30</span>s</div>
-            </div>
-            <div class="stat-card stat-card-wide">
-                <div class="fill-header">
-                    <span class="stat-label">Water Bar</span>
-                    <span id="fill-status" class="fill-status">0%</span>
-                </div>
-                <div class="fill-bar-shell" aria-label="Water bar progress">
-                    <div id="fill-bar" class="fill-bar"></div>
-                </div>
-                <div id="feedback" class="feedback-text" aria-live="polite">Press start to launch the balloon run.</div>
-            </div>
-            <button id="start-btn">Start Mission</button>
-        </div>
+        <div class="game-screen-stack">
+            <section class="cw-brand-strip" aria-label="charity water brand section">
+                <img class="cw-brand-logo" src="img/cw_logo-horizontal.png" alt="charity: water logo">
+                <p class="cw-brand-note">Pop balloons to help fill clean water access.</p>
+            </section>
 
-        <div id="game-container" aria-label="Game area">
-            <div id="goal-chip" class="goal-chip">Fill the tank before 30 seconds ends</div>
-            <div class="cw-corner-brand" aria-label="charity water brand panel">
-                <img class="cw-corner-logo" src="img/cw_logo-horizontal.png" alt="charity: water logo">
-                <p class="cw-corner-note">Pop balloons to help fill clean water access.</p>
-            </div>
-            <div id="cutscene" class="cs-screen" role="dialog" aria-label="Story introduction">
+            <div id="game-container" aria-label="Game area">
+                <div id="goal-chip" class="goal-chip">Fill the tank before 30 seconds ends</div>
+                <div class="game-top-stats" aria-label="Game stats">
+                    <div class="stat-card game-stat-card">
+                        <span class="stat-label">Score</span>
+                        <div class="score"><span id="score">0</span></div>
+                    </div>
+                    <div class="stat-card game-stat-card">
+                        <span class="stat-label">High Score</span>
+                        <div class="score high-score"><span id="high-score">0</span></div>
+                    </div>
+                    <div class="stat-card game-stat-card">
+                        <span class="stat-label">Time</span>
+                        <div class="timer"><span id="time">30</span>s</div>
+                    </div>
+                </div>
+                <div id="milestone-banner" class="milestone-banner" aria-live="polite"></div>
+                <div class="game-bottom-hud">
+                    <div class="fill-header">
+                        <span class="stat-label">Water Bar</span>
+                        <span id="fill-status" class="fill-status">0%</span>
+                    </div>
+                    <div class="fill-bar-shell" aria-label="Water bar progress">
+                        <div id="fill-bar" class="fill-bar"></div>
+                    </div>
+                    <div id="feedback" class="feedback-text" aria-live="polite">Press start to launch the balloon run.</div>
+                </div>
+                <div id="cutscene" class="cs-screen" role="dialog" aria-label="Story introduction">
 
                 <div class="cs-stage">
                     <div class="cs-char cs-char-left" id="cs-char-left">
@@ -70,16 +71,42 @@
                     <button class="cs-next-btn" id="cs-next-btn">Next ›</button>
                 </div>
 
+                <div id="cs-howto-card" class="cs-howto-card hidden" role="dialog" aria-label="How to play reminder">
+                    <h3>How To Play</h3>
+                    <p>Tap on mobile or click on desktop to burst red water balloons. Each pop adds water to the bar and boosts your score. Watch out for dark balloons — those are polluted and will deduct points if popped. Keep popping until the timer ends and try to fill the tank before time runs out.</p>
+                    <button id="cs-howto-btn" class="cs-howto-btn">Continue ›</button>
+                </div>
+
             </div>
-            <div id="intro-overlay" class="info-overlay">
-                <div class="overlay-card">
-                    <h2>Ready To Fill The Tank?</h2>
-                    <p>Pop every <strong>red balloon</strong> you can. Each one adds water and points. Avoid the <strong>dark balloons</strong> — popping those costs you points.</p>
-                    <button id="overlay-start-btn" class="overlay-button">Start Popping</button>
+                <div id="intro-overlay" class="info-overlay">
+                    <div class="overlay-card">
+                        <h2>Ready To Fill The Tank?</h2>
+                        <p>Pop every <strong>red balloon</strong> you can. Each one adds water and points. Avoid the <strong>dark balloons</strong> — popping those costs you points.</p>
+                        <div class="overlay-difficulty-row">
+                            <label for="overlay-difficulty-select" class="stat-label">Difficulty</label>
+                            <select id="overlay-difficulty-select" class="difficulty-select" aria-label="Select game difficulty before start">
+                                <option value="easy">Easy</option>
+                                <option value="normal" selected>Normal</option>
+                                <option value="hard">Hard</option>
+                            </select>
+                        </div>
+                        <button id="overlay-start-btn" class="overlay-button">Start Popping</button>
+                    </div>
+                </div>
+                <div id="end-message" class="end-message hidden" aria-live="polite"></div>
+            </div>
+        </div>
+
+        <footer class="charity-footer" aria-label="charity water links">
+            <div class="charity-footer-inner">
+                <h2>charity: water</h2>
+                <p>Learn about the organization’s mission and support verified clean water initiatives through the official donation page.</p>
+                <div class="charity-footer-links">
+                    <a class="charity-link" href="https://www.charitywater.org" target="_blank" rel="noopener noreferrer">Official Website</a>
+                    <a class="charity-link charity-link-donate" href="https://www.charitywater.org/donate" target="_blank" rel="noopener noreferrer">Donation Page</a>
                 </div>
             </div>
-            <div id="end-message" class="end-message hidden" aria-live="polite"></div>
-        </div>
+        </footer>
     </div>
 
     <script src="script.js"></script>
