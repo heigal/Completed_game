@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Water Balloon Rush</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -43,8 +46,8 @@
                         <span class="stat-label">Water Bar</span>
                         <span id="fill-status" class="fill-status">0%</span>
                     </div>
-                    <div class="fill-bar-shell" aria-label="Water bar progress">
-                        <div id="fill-bar" class="fill-bar"></div>
+                    <div class="fill-bar-shell">
+                        <div id="fill-bar" class="fill-bar" role="progressbar" aria-label="Water bar progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
                     </div>
                     <div id="feedback" class="feedback-text" aria-live="polite">Press start to launch the balloon run.</div>
                 </div>

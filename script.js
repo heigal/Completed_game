@@ -1,6 +1,7 @@
 const GAME_DURATION = 30;
 const BAR_GOAL = 100;
 const WATER_PER_POP = 8;
+const BAD_WATER_DRAIN = 8;
 const BASE_POINTS = 10;
 const OVERFLOW_BONUS = 5;
 const SPAWN_DELAY = 650;
@@ -299,7 +300,11 @@ function createBalloon() {
   balloon.style.height = `${height}px`;
   balloon.style.left = `${xPosition}px`;
   balloon.style.bottom = `-${height}px`;
-  balloon.style.animationDuration = `${duration}s, ${sway}`;
+  balloon.style.animationDuration = isSpecial
+    ? `${duration}s, ${sway}, 1.15s`
+    : isFreeze
+      ? `${duration}s, ${sway}, 1.05s`
+      : `${duration}s, ${sway}`;
   balloon.setAttribute("aria-label", isFreeze ? "Pop freeze balloon" : isSpecial ? "Pop special bonus balloon" : isBad ? "Avoid this bad balloon" : "Pop water balloon");
   if (isFreeze) {
     balloon.innerHTML = '<span class="freeze-mark" aria-hidden="true">❄</span>';
@@ -355,10 +360,12 @@ function popBalloon(balloon) {
 
   if (balloon.classList.contains("bad-balloon")) {
     score = Math.max(0, score - currentDifficulty.badPenalty);
+    waterLevel = Math.max(0, waterLevel - BAD_WATER_DRAIN);
     updateScoreDisplay();
     triggerMilestones();
+    updateWaterBar();
     playPopSound();
-    setFeedback(`Polluted balloon popped. -${currentDifficulty.badPenalty} points. Avoid the dark ones.`);
+    setFeedback(`Polluted balloon popped. -${currentDifficulty.badPenalty} points and water dropped.`);
     flashContainer("game-flash-bad");
     showFloatingPoints(x, y, `-${currentDifficulty.badPenalty}`, true);
     showWaterParticles(x, y, "bad");
@@ -395,6 +402,8 @@ function updateWaterBar() {
   const overflowAmount = Math.max(waterLevel - BAR_GOAL, 0);
 
   fillBar.style.width = `${percentage}%`;
+  fillBar.setAttribute("aria-valuenow", String(Math.round(percentage)));
+  fillBar.setAttribute("aria-valuetext", overflowAmount > 0 ? `Full plus ${overflowAmount} percent` : `${Math.round(percentage)} percent full`);
   fillStatus.textContent = overflowAmount > 0 ? `Full +${overflowAmount}%` : `${Math.round(percentage)}%`;
   fillBar.classList.toggle("fill-bar-overflow", overflowAmount > 0);
   goalChip.textContent = overflowAmount > 0 ? "Tank full. Bonus points unlocked" : goalChip.textContent;
@@ -551,10 +560,28 @@ function endGame() {
     ${winImageMarkup}
     <p>Your score: <strong>${score}</strong></p>
     <p>High score: <strong>${highScore}</strong></p>
-    <button id="replay-btn" class="replay-button">Reset And Replay</button>
+    <button id="replay-btn" class="replay-button">Choose Difficulty And Replay</button>
   `;
   endMessage.classList.remove("hidden");
-  document.getElementById("replay-btn").addEventListener("click", startGame);
+  document.getElementById("replay-btn").addEventListener("click", openReplaySetup);
+}
+
+function openReplaySetup() {
+  endMessage.classList.add("hidden");
+  introOverlay.classList.remove("hidden");
+
+  if (topDifficultySelect) {
+    topDifficultySelect.disabled = false;
+    topDifficultySelect.value = currentDifficultyKey;
+  }
+
+  if (overlayDifficultySelect) {
+    overlayDifficultySelect.disabled = false;
+    overlayDifficultySelect.value = currentDifficultyKey;
+  }
+
+  goalChip.textContent = `${currentDifficulty.label} mode • Fill the tank before 30 seconds ends`;
+  setFeedback("Pick your difficulty, then press Start Popping.");
 }
 
 function getSelectedDifficultyKey() {
