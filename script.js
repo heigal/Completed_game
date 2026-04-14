@@ -19,7 +19,8 @@ const DIFFICULTY_SETTINGS = {
     badPenalty: 10,
     specialBalloonChance: 0.14,
     freezeBalloonChance: 0,
-    basePoints: 10
+    basePoints: 10,
+    pointMultiplier: 1
   },
   normal: {
     label: "Normal",
@@ -28,7 +29,8 @@ const DIFFICULTY_SETTINGS = {
     badPenalty: BAD_PENALTY,
     specialBalloonChance: SPECIAL_BALLOON_CHANCE,
     freezeBalloonChance: 0,
-    basePoints: BASE_POINTS
+    basePoints: BASE_POINTS,
+    pointMultiplier: 1.5
   },
   hard: {
     label: "Hard",
@@ -37,7 +39,8 @@ const DIFFICULTY_SETTINGS = {
     badPenalty: 20,
     specialBalloonChance: 0.07,
     freezeBalloonChance: 0.3,
-    basePoints: 12
+    basePoints: 12,
+    pointMultiplier: 2
   }
 };
 
@@ -346,13 +349,15 @@ function popBalloon(balloon) {
   }
 
   if (balloon.classList.contains("special-balloon")) {
-    score += SPECIAL_BALLOON_POINTS;
+    const rawPoints = SPECIAL_BALLOON_POINTS;
+    const pointsEarned = applyPointMultiplier(rawPoints);
+    score += pointsEarned;
     updateScoreDisplay();
     triggerMilestones();
     playPopSound();
-    setFeedback(`Golden bonus balloon popped. +${SPECIAL_BALLOON_POINTS} points.`);
+    setFeedback(`Golden bonus balloon popped. +${pointsEarned} points.`);
     flashContainer("game-flash-special");
-    showFloatingPoints(x, y, `+${SPECIAL_BALLOON_POINTS}`);
+    showFloatingPoints(x, y, `+${pointsEarned}`);
     showWaterParticles(x, y, "special");
     balloon.classList.add("popping");
     return;
@@ -374,7 +379,8 @@ function popBalloon(balloon) {
   }
 
   const bonusActive = waterLevel >= BAR_GOAL;
-  const pointsEarned = currentDifficulty.basePoints + (bonusActive ? OVERFLOW_BONUS : 0);
+  const rawPoints = currentDifficulty.basePoints + (bonusActive ? OVERFLOW_BONUS : 0);
+  const pointsEarned = applyPointMultiplier(rawPoints);
 
   score += pointsEarned;
   waterLevel += WATER_PER_POP;
@@ -388,6 +394,11 @@ function popBalloon(balloon) {
   showFloatingPoints(x, y, `+${pointsEarned}`);
   showWaterParticles(x, y, "good");
   balloon.classList.add("popping");
+}
+
+function applyPointMultiplier(points) {
+  const multiplier = currentDifficulty.pointMultiplier || 1;
+  return Math.round(points * multiplier);
 }
 
 function updateScoreDisplay() {
